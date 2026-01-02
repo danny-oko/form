@@ -33,9 +33,10 @@ const page = (formData, setFormData, steps, nextStep) => {
     return next;
   };
 
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
   };
 
   return (
