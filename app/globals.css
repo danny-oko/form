@@ -9,11 +9,10 @@
   --color-red: #e14942;
   --color-border: #cbd5e1;
 
-  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial,
-    "Apple Color Emoji", "Segoe UI Emoji";
+  --font-sans: "Inter";
 
   --spacing-w-default: 480px;
-  --spacing-h-default: 655px
+  --spacing-h-default: 655px;
 }
 
 :root {
