@@ -21,6 +21,7 @@ const Page = () => {
     password: "",
     confirmPassword: "",
     date: "",
+    img: "",
   });
 
   const CurrentStep = steps[step];
@@ -34,7 +35,7 @@ const Page = () => {
   };
 
   return (
-    <div className="container w-gg h-screen flex flex-col items-center justify-center bg-main">
+    <div className="container w-full h-screen flex flex-col items-center justify-center bg-main">
       <CurrentStep
         formData={formData}
         setFormData={setFormData}

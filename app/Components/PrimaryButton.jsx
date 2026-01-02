@@ -1,18 +1,22 @@
-// components/Button.jsx
+"use client";
 import React from "react";
 
-const Button = ({ type = "button", onClick, disabled = false }) => {
+const PrimaryButton = ({
+  type = "button",
+  onClick,
+  disabled = false,
+  children,
+}) => {
   return (
     <button
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className="button bg-black cursor-pointer rounded-[6px] text-white w-[416px] h-[44px] disabled:opacity-50 disabled:cursor-not-allowed"
+      className="bg-black text-white w-[416px] h-[44px] rounded-[6px] disabled:opacity-50"
     >
-      {/* {children} */}
-      Continue 1 / 3
+      {children}
     </button>
   );
 };
 
-export default Button;
+export default PrimaryButton;

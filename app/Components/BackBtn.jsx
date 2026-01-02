@@ -1,14 +1,13 @@
 "use client";
 import React from "react";
-import { useRouter } from "next/navigation";
 
-const BackBtn = () => {
-  const router = useRouter();
-
+const BackBtn = ({ onBack, disabled }) => {
   return (
     <button
-      onClick={() => router.back()}
-      className="px-4 py-2 rounded-md border border-gray-300 text-sm"
+      type="button"
+      onClick={onBack}
+      disabled={disabled}
+      className="px-4 py-2 w-[128px] rounded-md border border-gray-300 text-sm disabled:opacity-50"
     >
       Back
     </button>

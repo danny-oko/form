@@ -1,5 +1,5 @@
 // app/layout.jsx
-import "./globals.css"; // ← THIS LINE IS MISSING
+import "./globals.css";
 
 export const metadata = {
   title: "Multi-step Sign Up",
