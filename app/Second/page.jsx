@@ -85,6 +85,8 @@ const Page = ({
     const merged = { ...prev, ...step2 };
     localStorage.setItem("sign_up_data", JSON.stringify(merged));
 
+    console.log(step2);
+    console.log(merged);
     nextStep();
   };
 
@@ -117,7 +119,7 @@ const Page = ({
               value={formData.email}
               onChange={handleChange}
             />
-            {error && <p className="text-red text-sm">{error}</p>}
+            {error.email && <p className="text-red text-sm">{error}</p>}
           </div>
 
           <div className="each flex flex-col gap-1">
@@ -132,7 +134,7 @@ const Page = ({
               value={formData.tel}
               onChange={handleChange}
             />
-            {error && <p className="text-red text-sm">{error}</p>}
+            {error.tel && <p className="text-red text-sm">{error}</p>}
           </div>
           <div className="each flex flex-col gap-1">
             <label className="flex gap-1 text-sm font-semibold">
@@ -146,7 +148,7 @@ const Page = ({
               value={formData.password}
               onChange={handleChange}
             />
-            {error && <p className="text-red text-sm">{error}</p>}
+            {error.password && <p className="text-red text-sm">{error}</p>}
           </div>
           <div className="each flex flex-col gap-1">
             <label className="flex gap-1 text-sm font-semibold">
@@ -160,13 +162,16 @@ const Page = ({
               value={formData.confirmPassword}
               onChange={handleChange}
             />
-            {error && <p className="text-red text-sm">{error}</p>}
+            {error.confirmPassword && (
+              <p className="text-red text-sm">{error}</p>
+            )}
           </div>
 
           <div className="flex gap-2">
-            <BackBtn />
+            <BackBtn type="button" />
+
             <PrimaryButton type="submit">
-              Continue {step + 1} / {totalSteps}
+              Continue {step + 1} / {totalSteps - 1}
             </PrimaryButton>
           </div>
         </form>

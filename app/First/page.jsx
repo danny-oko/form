@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import PrimaryButton from "@/app/Components/PrimaryButton";
-import BackBtn from "@/app/Components/BackBtn";
 
 const Page = ({
   formData,
@@ -19,6 +18,7 @@ const Page = ({
 
     try {
       const parsed = JSON.parse(saved);
+      console.log(parsed);
       setFormData((prev) => ({
         ...prev,
         firstName: parsed.firstName || "",
@@ -65,7 +65,8 @@ const Page = ({
     localStorage.setItem("sign_up_data", JSON.stringify(merged));
 
     console.log(step1);
-    // console.log(merged);
+    console.log(merged);
+
     nextStep();
   };
 
@@ -84,7 +85,7 @@ const Page = ({
 
         <form
           onSubmit={handleSubmit}
-          className="w-full flex flex-col gap-3 mt-[28px] "
+          className="w-full flex flex-col gap-3 mt-[28px]"
         >
           <div className="each flex flex-col gap-1">
             <label className="flex gap-1 text-sm font-semibold">
@@ -131,9 +132,9 @@ const Page = ({
             {error && <p className="text-red text-sm">{error}</p>}
           </div>
 
-          <div className="">
+          <div>
             <PrimaryButton type="submit">
-              Continue {step + 1} / {totalSteps}
+              Continue {step + 1} / {totalSteps - 1}
             </PrimaryButton>
           </div>
         </form>
