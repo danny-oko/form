@@ -1,9 +1,13 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 const Final = () => {
-  localStorage.setItem("sign_up_data", "");
+  const saved = JSON.parse(localStorage.getItem("sign_up_data"));
+  const empty = "";
+  const final = { ...saved, empty };
+  localStorage.setItem("sign_up_data", JSON.stringify(final));
+  console.log("Deleted Sign up data from localStorage");
 
   return (
     <motion.div
