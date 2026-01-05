@@ -3,6 +3,9 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import BackBtn from "@/app/components/BackBtn";
 import PrimaryButton from "@/app/components/PrimaryButton";
+
+export const dynamic = "force-dynamic";
+
 const Page = ({
   formData,
   setFormData,

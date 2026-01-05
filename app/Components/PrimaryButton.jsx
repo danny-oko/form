@@ -2,9 +2,9 @@
 import React from "react";
 
 const PrimaryButton = ({
-  type = "button",
+  type,
   onClick,
-  disabled = false,
+  disabled,
   children,
 }) => {
   return (

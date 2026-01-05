@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Final from "./Final/page";
-import First from "./First/page";
-import Second from "./Second/page";
-import Third from "./Third/page";
+import Final from "./steps /Final";
+import First from "./steps /First";
+import Second from "./steps /Second";
+import Third from "./steps /Third";
 
 const Page = () => {
   const steps = [First, Second, Third, Final];
