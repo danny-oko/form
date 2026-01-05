@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import PrimaryButton from "../Components/PrimaryButton";
-import BackBtn from "../Components/BackBtn";
+import PrimaryButton from "../components/PrimaryButton";
+import BackBtn from "../components/BackBtn";
 import { motion } from "framer-motion";
 
 const Page = ({
@@ -120,7 +120,7 @@ const Page = ({
                   type="date"
                   className="border border-border rounded-lg w-full h-[44px] p-[8px]"
                   name="date"
-                  value={formData.date}
+                  value={formData?.date || ""}
                   onChange={handleChange}
                 />
               </div>

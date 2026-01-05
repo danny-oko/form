@@ -1,14 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import PrimaryButton from "../Components/PrimaryButton";
+import PrimaryButton from "../components/PrimaryButton";
 import { motion } from "framer-motion";
 const Page = ({
-  formData,
+  formData = {},
   setFormData,
   nextStep,
   prevStep,
-  step,
-  totalSteps,
+  step = 0,
+  totalSteps = 4,
 }) => {
   const [error, setError] = useState("");
 
@@ -20,7 +20,7 @@ const Page = ({
       const parsed = JSON.parse(saved);
       console.log(parsed);
       setFormData((prev) => ({
-        ...prev,
+        ...(prev || {}),
         firstName: parsed.firstName || "",
         lastName: parsed.lastName || "",
         userName: parsed.userName || "",
@@ -41,7 +41,7 @@ const Page = ({
     setError("");
 
     setFormData((prev) => {
-      const next = { ...prev, [name]: value };
+      const next = { ...(prev || {}), [name]: value };
       localStorage.setItem("sign_up_data", JSON.stringify(next));
       return next;
     });
@@ -51,9 +51,9 @@ const Page = ({
     e.preventDefault();
 
     const step1 = {
-      firstName: formData.firstName.trim(),
-      lastName: formData.lastName.trim(),
-      userName: formData.userName.trim(),
+      firstName: (formData?.firstName || "").trim(),
+      lastName: (formData?.lastName || "").trim(),
+      userName: (formData?.userName || "").trim(),
     };
 
     if (!step1.firstName || !step1.lastName || !step1.userName) {
@@ -104,7 +104,7 @@ const Page = ({
                   className="border border-border rounded-lg w-full h-[44px] p-[8px]"
                   placeholder="First Name"
                   name="firstName"
-                  value={formData.firstName}
+                  value={formData?.firstName || ""}
                   onChange={handleChange}
                 />
                 {error && <p className="text-red text-sm">{error}</p>}
@@ -118,7 +118,7 @@ const Page = ({
                   className="border border-border rounded-lg w-full h-[44px] p-[8px]"
                   placeholder="Last Name"
                   name="lastName"
-                  value={formData.lastName}
+                  value={formData?.lastName || ""}
                   onChange={handleChange}
                 />
                 {error && <p className="text-red text-sm">{error}</p>}
@@ -132,7 +132,7 @@ const Page = ({
                   className="border border-border rounded-lg w-full h-[44px] p-[8px]"
                   placeholder="User Name"
                   name="userName"
-                  value={formData.userName}
+                  value={formData?.userName || ""}
                   onChange={handleChange}
                 />
                 {error && <p className="text-red text-sm">{error}</p>}
