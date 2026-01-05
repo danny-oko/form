@@ -4,6 +4,8 @@ import PrimaryButton from "../components/PrimaryButton";
 import BackBtn from "../components/BackBtn";
 import { motion } from "framer-motion";
 
+export const dynamic = 'force-dynamic';
+
 const Page = ({
   formData,
   setFormData,

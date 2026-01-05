@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from "react";
 import PrimaryButton from "../components/PrimaryButton";
 import { motion } from "framer-motion";
+
+export const dynamic = 'force-dynamic';
+
 const Page = ({
   formData = {},
   setFormData,

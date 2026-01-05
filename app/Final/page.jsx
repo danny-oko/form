@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
+export const dynamic = 'force-dynamic';
+
 const Final = () => {
   useEffect(() => {
     localStorage.removeItem("sign_up_data");
