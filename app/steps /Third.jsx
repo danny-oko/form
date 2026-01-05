@@ -42,7 +42,6 @@ const Page = ({
   const handleChange = async (e) => {
     const { name, value, files } = e.target;
     setError("");
-
     if (name === "date") {
       setFormData((prev) => {
         const next = { ...prev, date: value };
@@ -78,8 +77,8 @@ const Page = ({
     e.preventDefault();
     const step3 = { date: formData.date?.trim(), img: formData.img };
 
-    if (!step3.date || !step3.img) {
-      setError("You must fill all inputs");
+    if (!step3.date) {
+      setError("All fields are required");
       return;
     }
 
@@ -125,6 +124,7 @@ const Page = ({
                   onChange={handleChange}
                 />
               </div>
+              {error && <p className="text-red text-sm">{error}</p>}
 
               <div className="each flex flex-col gap-1">
                 <label className="flex gap-1 text-sm font-semibold">
