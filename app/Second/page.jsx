@@ -1,9 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import PrimaryButton from "@/app/components/PrimaryButton";
-import BackBtn from "@/app/components/BackBtn";
 import { motion } from "framer-motion";
-
+import BackBtn from "@/app/components/BackBtn";
+import PrimaryButton from "@/app/components/PrimaryButton";
 const Page = ({
   formData,
   setFormData,
@@ -84,7 +83,7 @@ const Page = ({
     const prevSaved = JSON.parse(localStorage.getItem("sign_up_data") || "{}");
     const merged = { ...prevSaved, ...step2 };
     localStorage.setItem("sign_up_data", JSON.stringify(merged));
-
+    console.log(merged);
     nextStep();
   };
 
