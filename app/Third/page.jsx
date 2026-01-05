@@ -1,8 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import PrimaryButton from "../Components/PrimaryButton";
-import BackBtn from "../Components/BackBtn";
+import PrimaryButton from "../components/PrimaryButton";
+import BackBtn from "../components/BackBtn";
 import { motion } from "framer-motion";
+
 const Page = ({
   formData,
   setFormData,

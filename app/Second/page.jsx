@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import PrimaryButton from "@/app/Components/PrimaryButton";
-import BackBtn from "@/app/Components/BackBtn";
+import PrimaryButton from "@/app/components/PrimaryButton";
+import BackBtn from "@/app/components/BackBtn";
 import { motion } from "framer-motion";
 
 const Page = ({
@@ -94,7 +94,7 @@ const Page = ({
       className="w-w-default h-h-default bg-white rounded-lg flex flex-col justify-between items-center p-[32px]"
       initial={{ x: 50, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
-      transition={{ duration: 1}}
+      transition={{ duration: 1 }}
     >
       <div className="container w-full h-[385px] flex flex-col justify-between">
         <section className="top-container w-[416px]">

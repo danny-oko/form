@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import PrimaryButton from "@/app/Components/PrimaryButton";
+import PrimaryButton from "@/app/components/PrimaryButton";
 import { motion } from "framer-motion";
 const Page = ({
   formData,

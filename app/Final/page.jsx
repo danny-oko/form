@@ -3,12 +3,10 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 const Final = () => {
-  const saved = JSON.parse(localStorage.getItem("sign_up_data"));
-  const empty = "";
-  const final = { ...saved, empty };
-  localStorage.setItem("sign_up_data", JSON.stringify(final));
-  console.log("Deleted Sign up data from localStorage");
-
+  useEffect(() => {
+    localStorage.removeItem("sign_up_data");
+    console.log("Deleted Sign up data from local storage!");
+  }, []);
   return (
     <motion.div
       className="w-full h-[100vh] flex flex-col items-center justify-center bg-main bg-main"
