@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import PrimaryButton from "@/app/Components/PrimaryButton";
 import BackBtn from "@/app/Components/BackBtn";
+import { motion } from "framer-motion";
 
 const Page = ({
   formData,
@@ -39,16 +40,9 @@ const Page = ({
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-      setError("invalid email format ");
-      return;
-    }
-    if (name === "tel" && !/^\+?\d{8}$/.test(value)) {
-      setError("invalid phone number format");
-      return;
-    }
+    // clear that field error only
+    setError((prev) => ({ ...prev, [name]: "" }));
 
-    setError("");
     setFormData((prev) => {
       const next = { ...prev, [name]: value };
       localStorage.setItem("sign_up_data", JSON.stringify(next));
@@ -60,38 +54,48 @@ const Page = ({
     e.preventDefault();
 
     const step2 = {
-      email: formData.email.trim(),
-      tel: formData.tel.trim(),
-      password: formData.password.trim(),
-      confirmPassword: formData.confirmPassword.trim(),
+      email: (formData.email || "").trim(),
+      tel: (formData.tel || "").trim(),
+      password: (formData.password || "").trim(),
+      confirmPassword: (formData.confirmPassword || "").trim(),
     };
 
+    const nextErr = { email: "", tel: "", password: "", confirmPassword: "" };
+
+    if (!step2.email) nextErr.email = "Email is required";
+    if (!step2.tel) nextErr.tel = "Phone is required";
+    if (!step2.password) nextErr.password = "Password is required";
+    if (!step2.confirmPassword)
+      nextErr.confirmPassword = "Confirm your password";
+
     if (
-      !step2.email ||
-      !step2.tel ||
-      !step2.password ||
-      !step2.confirmPassword
+      step2.password &&
+      step2.confirmPassword &&
+      step2.password !== step2.confirmPassword
     ) {
-      setError("All fields are required");
+      nextErr.confirmPassword = "Passwords do not match";
+    }
+
+    const hasErr = Object.values(nextErr).some(Boolean);
+    if (hasErr) {
+      setError(nextErr);
       return;
     }
 
-    if (step2.password !== step2.confirmPassword) {
-      setError("passwords do not match");
-      return;
-    }
-
-    const prev = JSON.parse(localStorage.getItem("sign_up_data") || "{}");
-    const merged = { ...prev, ...step2 };
+    const prevSaved = JSON.parse(localStorage.getItem("sign_up_data") || "{}");
+    const merged = { ...prevSaved, ...step2 };
     localStorage.setItem("sign_up_data", JSON.stringify(merged));
 
-    console.log(step2);
-    console.log(merged);
     nextStep();
   };
 
   return (
-    <div className="w-w-default h-h-default bg-white rounded-lg flex flex-col justify-between items-center p-[32px]">
+    <motion.div
+      className="w-w-default h-h-default bg-white rounded-lg flex flex-col justify-between items-center p-[32px]"
+      initial={{ x: 50, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ duration: 1}}
+    >
       <div className="container w-full h-[385px] flex flex-col justify-between">
         <section className="top-container w-[416px]">
           <aside className="heading flex flex-col gap-1">
@@ -105,78 +109,87 @@ const Page = ({
 
         <form
           onSubmit={handleSubmit}
-          className="w-full flex flex-col gap-3 mt-[28px] "
+          className="w-full flex flex-col gap-3 mt-[28px]"
         >
-          <div className="each flex flex-col gap-1">
-            <label className="flex gap-1 text-sm font-semibold">
-              Email <span className="text-red">*</span>
-            </label>
-            <input
-              type="text"
-              className="border border-border rounded-lg w-full h-[44px] p-[8px]"
-              placeholder="Email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-            {error.email && <p className="text-red text-sm">{error}</p>}
-          </div>
+          <aside className="form-button-container w-full h-[420px] flex flex-col justify-between">
+            <div className="forms-container flex flex-col gap-2">
+              <div className="each flex flex-col gap-1">
+                <label className="flex gap-1 text-sm font-semibold">
+                  Email <span className="text-red">*</span>
+                </label>
+                <input
+                  type="text"
+                  className="border border-border rounded-lg w-full h-[44px] p-[8px]"
+                  placeholder="Email"
+                  name="email"
+                  value={formData.email || ""}
+                  onChange={handleChange}
+                />
+                {error.email && (
+                  <p className="text-red text-sm">{error.email}</p>
+                )}
+              </div>
 
-          <div className="each flex flex-col gap-1">
-            <label className="flex gap-1 text-sm font-semibold">
-              Phone Number <span className="text-red">*</span>
-            </label>
-            <input
-              type="text"
-              className="border border-border rounded-lg w-full h-[44px] p-[8px]"
-              placeholder="Phone Number"
-              name="tel"
-              value={formData.tel}
-              onChange={handleChange}
-            />
-            {error.tel && <p className="text-red text-sm">{error}</p>}
-          </div>
-          <div className="each flex flex-col gap-1">
-            <label className="flex gap-1 text-sm font-semibold">
-              Password<span className="text-red">*</span>
-            </label>
-            <input
-              type="password"
-              className="border border-border rounded-lg w-full h-[44px] p-[8px]"
-              placeholder="Password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-            />
-            {error.password && <p className="text-red text-sm">{error}</p>}
-          </div>
-          <div className="each flex flex-col gap-1">
-            <label className="flex gap-1 text-sm font-semibold">
-              Password<span className="text-red">*</span>
-            </label>
-            <input
-              type="password"
-              className="border border-border rounded-lg w-full h-[44px] p-[8px]"
-              placeholder="Confirm Password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-            />
-            {error.confirmPassword && (
-              <p className="text-red text-sm">{error}</p>
-            )}
-          </div>
+              <div className="each flex flex-col gap-1">
+                <label className="flex gap-1 text-sm font-semibold">
+                  Phone Number <span className="text-red">*</span>
+                </label>
+                <input
+                  type="text"
+                  className="border border-border rounded-lg w-full h-[44px] p-[8px]"
+                  placeholder="Phone Number"
+                  name="tel"
+                  value={formData.tel || ""}
+                  onChange={handleChange}
+                />
+                {error.tel && <p className="text-red text-sm">{error.tel}</p>}
+              </div>
 
-          <div className="flex gap-2">
-            <BackBtn type="button" />
+              <div className="each flex flex-col gap-1">
+                <label className="flex gap-1 text-sm font-semibold">
+                  Password <span className="text-red">*</span>
+                </label>
+                <input
+                  type="password"
+                  className="border border-border rounded-lg w-full h-[44px] p-[8px]"
+                  placeholder="Password"
+                  name="password"
+                  value={formData.password || ""}
+                  onChange={handleChange}
+                />
+                {error.password && (
+                  <p className="text-red text-sm">{error.password}</p>
+                )}
+              </div>
 
-            <PrimaryButton type="submit">
-              Continue {step + 1} / {totalSteps - 1}
-            </PrimaryButton>
-          </div>
+              <div className="each flex flex-col gap-1">
+                <label className="flex gap-1 text-sm font-semibold">
+                  Confirm Password <span className="text-red">*</span>
+                </label>
+                <input
+                  type="password"
+                  className="border border-border rounded-lg w-full h-[44px] p-[8px]"
+                  placeholder="Confirm Password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword || ""}
+                  onChange={handleChange}
+                />
+                {error.confirmPassword && (
+                  <p className="text-red text-sm">{error.confirmPassword}</p>
+                )}
+              </div>
+            </div>
+
+            <div className="flex gap-2">
+              <BackBtn type="button" onClick={prevStep} />
+              <PrimaryButton type="submit">
+                Continue {step + 1} / {totalSteps - 1}
+              </PrimaryButton>
+            </div>
+          </aside>
         </form>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

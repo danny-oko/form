@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import PrimaryButton from "../Components/PrimaryButton";
 import BackBtn from "../Components/BackBtn";
+import { motion } from "framer-motion";
 const Page = ({
   formData,
   setFormData,
@@ -23,7 +24,7 @@ const Page = ({
         date: parsed.date || "",
         img: parsed.img || "",
       }));
-    } catch (err) {
+    } catch {
       setError("failed to retrieve data from local storage");
     }
   }, [setFormData]);
@@ -31,17 +32,15 @@ const Page = ({
   const fileToBase64 = (file) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = () => resolve(reader.result); // dataURL string
+      reader.onload = () => resolve(reader.result);
       reader.onerror = reject;
       reader.readAsDataURL(file);
     });
 
   const handleChange = async (e) => {
     const { name, value, files } = e.target;
-
     setError("");
 
-    // ✅ date input (normal)
     if (name === "date") {
       setFormData((prev) => {
         const next = { ...prev, date: value };
@@ -51,7 +50,6 @@ const Page = ({
       return;
     }
 
-    // ✅ image input (file -> base64 -> localStorage)
     if (name === "img") {
       const file = files?.[0];
       if (!file) return;
@@ -63,13 +61,12 @@ const Page = ({
 
       try {
         const base64 = await fileToBase64(file);
-
         setFormData((prev) => {
           const next = { ...prev, img: base64 };
           localStorage.setItem("sign_up_data", JSON.stringify(next));
           return next;
         });
-      } catch (err) {
+      } catch {
         setError("Could not read the image file.");
       }
     }
@@ -77,11 +74,7 @@ const Page = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const step3 = {
-      date: formData.date?.trim(),
-      img: formData.img,
-    };
+    const step3 = { date: formData.date?.trim(), img: formData.img };
 
     if (!step3.date || !step3.img) {
       setError("You must fill all inputs");
@@ -91,12 +84,16 @@ const Page = ({
     const prev = JSON.parse(localStorage.getItem("sign_up_data") || "{}");
     const merged = { ...prev, ...step3 };
     localStorage.setItem("sign_up_data", JSON.stringify(merged));
-
     nextStep();
   };
 
   return (
-    <div className="w-w-default h-h-default bg-white rounded-lg flex flex-col items-center p-[32px]">
+    <motion.div
+      className="w-w-default h-h-default bg-white rounded-lg flex flex-col items-center p-[32px]"
+      initial={{ x: 50, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
       <div className="container">
         <section className="top-container w-[416px]">
           <aside className="heading flex flex-col gap-1">
@@ -107,56 +104,139 @@ const Page = ({
             </p>
           </aside>
         </section>
+
         <form
           onSubmit={handleSubmit}
-          className="w-full flex flex-col gap-3 mt-[28px] w-full h-[420px] justify-evenly"
+          className="w-full flex flex-col gap-3 mt-[28px]"
         >
-          <div className="each flex flex-col gap-1">
-            <label className="flex gap-1 text-sm font-semibold">
-              Date <span className="text-red">*</span>
-            </label>
-            <input
-              type="date"
-              className="border border-border rounded-lg w-full h-[44px] p-[8px]"
-              name="date"
-              value={formData.date}
-              onChange={handleChange}
-            />
-          </div>
+          <div className="handler flex flex-col justify-between h-[420px]">
+            <div className="forms-container flex flex-col gap-2">
+              <div className="each flex flex-col gap-1">
+                <label className="flex gap-1 text-sm font-semibold">
+                  Date <span className="text-red">*</span>
+                </label>
+                <input
+                  type="date"
+                  className="border border-border rounded-lg w-full h-[44px] p-[8px]"
+                  name="date"
+                  value={formData.date}
+                  onChange={handleChange}
+                />
+              </div>
 
-          <div className="each flex flex-col gap-1">
-            <label className="flex gap-1 text-sm font-semibold">
-              Image <span className="text-red">*</span>
-            </label>
+              <div className="each flex flex-col gap-1">
+                <label className="flex gap-1 text-sm font-semibold">
+                  Profile image <span className="text-red">*</span>
+                </label>
 
-            <input
-              type="file"
-              accept="image/*"
-              className="border border-border rounded-lg w-[418px] h-[180px]"
-              name="img"
-              onChange={handleChange}
-            />
+                {/* hide the real input */}
+                <input
+                  id="img"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  name="img"
+                  onChange={handleChange}
+                />
 
-            {/* {formData.img && (
-            <img
-              src={formData.img}
-              alt="preview"
-              className="w-24 h-24 object-cover rounded w-[418px] h-[180px] object-contain"
-            />
-          )} */}
-          </div>
+                {/* clickable box */}
+                <label
+                  htmlFor="img"
+                  className={[
+                    "relative w-full h-[180px] rounded-lg border border-border",
+                    "bg-[#F6F6F6] flex items-center justify-center cursor-pointer",
+                    "overflow-hidden",
+                    "hover:bg-[#F2F2F2] transition",
+                  ].join(" ")}
+                >
+                  {/* preview */}
+                  {formData.img ? (
+                    <>
+                      <img
+                        src={formData.img}
+                        alt="preview"
+                        className="w-full h-full object-cover"
+                      />
 
-          {error && <p className="text-red text-sm">{error}</p>}
-          <div className="buttons flex gap-2">
-            <BackBtn />
+                      {/* small edit icon top-right */}
+                      <span className="absolute top-2 right-2 w-8 h-8 rounded-md bg-black/70 flex items-center justify-center">
+                        {/* tiny pencil icon (no libs) */}
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M12 20H21"
+                            stroke="white"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                          />
+                          <path
+                            d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"
+                            stroke="white"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </span>
+                    </>
+                  ) : (
+                    <div className="flex flex-col items-center gap-2 text-muted">
+                      <span className="w-9 h-9 rounded-full bg-white border border-border flex items-center justify-center">
+                        <svg
+                          width="18"
+                          height="18"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M21 19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14Z"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M8.5 10.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                          />
+                          <path
+                            d="M21 15l-5-5L5 21"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </span>
 
-            <PrimaryButton type="submit">
-              Continue {step + 1} / {totalSteps - 1}
-            </PrimaryButton>
+                      <p className="text-sm font-medium text-title">
+                        Add image
+                      </p>
+                    </div>
+                  )}
+                </label>
+              </div>
+
+              {error && <p className="text-red text-sm">{error}</p>}
+            </div>
+
+            <div className="buttons flex gap-2">
+              <BackBtn type="button" onClick={prevStep} />
+              <PrimaryButton type="submit">
+                Continue {step + 1} / {totalSteps - 1}
+              </PrimaryButton>
+            </div>
           </div>
         </form>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

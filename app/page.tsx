@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import First from "./First/page";
 import Second from "./Second/page";
 import Third from "./Third/page";
-
 import Final from "./Final/page";
 
 const Page = () => {

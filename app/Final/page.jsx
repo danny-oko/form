@@ -1,9 +1,17 @@
 "use client";
 import React from "react";
+import { motion } from "framer-motion";
 
 const Final = () => {
+  localStorage.setItem("sign_up_data", "");
+
   return (
-    <div className="w-full h-[100vh] flex flex-col items-center justify-center bg-main bg-main">
+    <motion.div
+      className="w-full h-[100vh] flex flex-col items-center justify-center bg-main bg-main"
+      initial={{ x: 50, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
       <section className="container w-[480px] h-[192px] bg-white flex items-center justify-center">
         <aside className="inner w-[416px] h-[130px] flex flex-col justify-around">
           <figure className="w-full h-auto flex items-center">
@@ -22,7 +30,7 @@ const Final = () => {
         </aside>
         <div className="data"></div>
       </section>
-    </div>
+    </motion.div>
   );
 };
 

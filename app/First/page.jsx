@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import PrimaryButton from "@/app/Components/PrimaryButton";
-
+import { motion } from "framer-motion";
 const Page = ({
   formData,
   setFormData,
@@ -39,6 +39,7 @@ const Page = ({
     }
 
     setError("");
+
     setFormData((prev) => {
       const next = { ...prev, [name]: value };
       localStorage.setItem("sign_up_data", JSON.stringify(next));
@@ -71,7 +72,12 @@ const Page = ({
   };
 
   return (
-    <div className="w-w-default h-h-default bg-white rounded-lg flex flex-col justify-between items-center p-[32px]">
+    <motion.div
+      className="w-w-default h-h-default bg-white rounded-lg flex flex-col justify-between items-center p-[32px]"
+      initial={{ x: 50, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
       <div className="container w-full h-[385px] flex flex-col justify-between">
         <section className="top-container w-[416px]">
           <aside className="heading flex flex-col gap-1">
@@ -87,59 +93,60 @@ const Page = ({
           onSubmit={handleSubmit}
           className="w-full flex flex-col gap-3 mt-[28px]"
         >
-          <div className="each flex flex-col gap-1">
-            <label className="flex gap-1 text-sm font-semibold">
-              First Name <span className="text-red">*</span>
-            </label>
-            <input
-              type="text"
-              className="border border-border rounded-lg w-full h-[44px] p-[8px]"
-              placeholder="First Name"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-            />
-            {error && <p className="text-red text-sm">{error}</p>}
-          </div>
-
-          <div className="each flex flex-col gap-1">
-            <label className="flex gap-1 text-sm font-semibold">
-              Last Name <span className="text-red">*</span>
-            </label>
-            <input
-              type="text"
-              className="border border-border rounded-lg w-full h-[44px] p-[8px]"
-              placeholder="Last Name"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-            />
-            {error && <p className="text-red text-sm">{error}</p>}
-          </div>
-
-          <div className="each flex flex-col gap-1">
-            <label className="flex gap-1 text-sm font-semibold">
-              User Name <span className="text-red">*</span>
-            </label>
-            <input
-              type="text"
-              className="border border-border rounded-lg w-full h-[44px] p-[8px]"
-              placeholder="User Name"
-              name="userName"
-              value={formData.userName}
-              onChange={handleChange}
-            />
-            {error && <p className="text-red text-sm">{error}</p>}
-          </div>
-
-          <div>
-            <PrimaryButton type="submit">
-              Continue {step + 1} / {totalSteps - 1}
-            </PrimaryButton>
+          <div className="container h-[420px] flex flex-col justify-between ">
+            <div className="forms-container flex flex-col gap-2">
+              <div className="each flex flex-col gap-1">
+                <label className="flex gap-1 text-sm font-semibold">
+                  First Name <span className="text-red">*</span>
+                </label>
+                <input
+                  type="text"
+                  className="border border-border rounded-lg w-full h-[44px] p-[8px]"
+                  placeholder="First Name"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                />
+                {error && <p className="text-red text-sm">{error}</p>}
+              </div>
+              <div className="each flex flex-col gap-1">
+                <label className="flex gap-1 text-sm font-semibold">
+                  Last Name <span className="text-red">*</span>
+                </label>
+                <input
+                  type="text"
+                  className="border border-border rounded-lg w-full h-[44px] p-[8px]"
+                  placeholder="Last Name"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                />
+                {error && <p className="text-red text-sm">{error}</p>}
+              </div>
+              <div className="each flex flex-col gap-1">
+                <label className="flex gap-1 text-sm font-semibold">
+                  User Name <span className="text-red">*</span>
+                </label>
+                <input
+                  type="text"
+                  className="border border-border rounded-lg w-full h-[44px] p-[8px]"
+                  placeholder="User Name"
+                  name="userName"
+                  value={formData.userName}
+                  onChange={handleChange}
+                />
+                {error && <p className="text-red text-sm">{error}</p>}
+              </div>
+            </div>
+            <div>
+              <PrimaryButton type="submit">
+                Continue {step + 1} / {totalSteps - 1}
+              </PrimaryButton>
+            </div>
           </div>
         </form>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
