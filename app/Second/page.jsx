@@ -1,10 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import PrimaryButton from "../components/PrimaryButton";
-import BackBtn from "../components/BackBtn";
+import PrimaryButton from "@/app/components/PrimaryButton";
+import BackBtn from "@/app/components/BackBtn";
 import { motion } from "framer-motion";
-
-export const dynamic = 'force-dynamic';
 
 const Page = ({
   formData,
@@ -42,7 +40,6 @@ const Page = ({
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // clear that field error only
     setError((prev) => ({ ...prev, [name]: "" }));
 
     setFormData((prev) => {
