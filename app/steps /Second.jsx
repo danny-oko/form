@@ -86,7 +86,7 @@ const Page = ({
     const prevSaved = JSON.parse(localStorage.getItem("sign_up_data") || "{}");
     const merged = { ...prevSaved, ...step2 };
     localStorage.setItem("sign_up_data", JSON.stringify(merged));
-    console.log(merged);
+    // console.log(merged);
     nextStep();
   };
 

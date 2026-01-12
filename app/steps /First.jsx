@@ -68,8 +68,8 @@ const Page = ({
     const merged = { ...prev, ...step1 };
     localStorage.setItem("sign_up_data", JSON.stringify(merged));
 
-    console.log(step1);
-    console.log(merged);
+    // console.log(step1);
+    // console.log(merged);
 
     nextStep();
   };
